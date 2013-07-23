@@ -29,8 +29,9 @@ $.extend($.fn, {
 		}
 
 		// Add novalidate tag if HTML5.
-		this.attr( "novalidate", "novalidate" );
-
+		if ("noValidate" in document.createElement("form")){
+			this.attr( "novalidate", "novalidate" );
+		}
 		validator = new $.validator( options, this[0] );
 		$.data( this[0], "validator", validator );
 
