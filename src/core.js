@@ -842,6 +842,8 @@ $.extend($.validator, {
 		var rules = {};
 		var $element = $(element);
 		var type = $element[0].getAttribute("type");
+		var doc = document;
+		var ieComp = doc.all && doc.documentMode;
 
 		for (var method in $.validator.methods) {
 			var value;
@@ -852,6 +854,16 @@ $.extend($.validator, {
 				// Some browsers return an empty string for the required attribute
 				// and non-HTML5 browsers might have required="" markup
 				if ( value === "" ) {
+					//IE10 in compatibility to IE8 returns "" also when the attribute doesn't exist
+					if (ieComp && doc.documentMode === 8 && element.attributes["required"] === null)
+					{
+						value = false;
+					} else {
+						value = true;
+					}
+				}
+				if (value === null && ieComp && doc.documentMode === 7 && element.attributes["required"] && element.attributes["required"].value === "-1") {
+					//IE10 in compatibility to IE7 returns null in all cases but .attributes["required"].value returns "-1" if it exists and "null" otherwise
 					value = true;
 				}
 				// force non-HTML5 browsers to return bool
