@@ -48,7 +48,14 @@ $.extend($.fn, {
 
 				// allow suppressing validation by adding the html5 formnovalidate attribute to the submit button
 				if ( $(event.target).attr("formnovalidate") !== undefined ) {
-					validator.cancelSubmit = true;
+					//IE10 in compatibility to IE8 returns "" also when the attribute doesn't exist
+					var doc = document, docMode = doc.documentMode;
+					if (doc.all && docMode && docMode === 8 && event.target.attributes["formnovalidate"] === null) {
+						validator.cancelSubmit = undefined;
+					}
+					else {
+						validator.cancelSubmit = true;
+					}
 				}
 			});
 
