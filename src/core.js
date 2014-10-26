@@ -17,7 +17,7 @@ $.extend($.fn, {
 		}
 
 		// Add novalidate tag if HTML5.
-		if ("noValidate" in document.createElement("form")){
+		if ("noValidate" in document.createElement("form")) {
 			this.attr( "novalidate", "novalidate" );
 		}
 		validator = new $.validator( options, this[ 0 ] );
@@ -38,10 +38,9 @@ $.extend($.fn, {
 				if ( $( event.target ).attr( "formnovalidate" ) !== undefined ) {
 					//IE10 in compatibility to IE8 returns "" also when the attribute doesn't exist
 					var doc = document, docMode = doc.documentMode;
-					if (doc.all && docMode && docMode === 8 && event.target.attributes["formnovalidate"] === null) {
+					if (doc.all && docMode && docMode === 8 && event.target.attributes.formnovalidate === null) {
 						validator.cancelSubmit = undefined;
-					}
-					else {
+					} else {
 						validator.cancelSubmit = true;
 					}
 				}
@@ -950,9 +949,11 @@ $.extend( $.validator, {
 	attributeRules: function( element ) {
 		var rules = {},
 			$element = $( element ),
-			type = element.getAttribute( "type" ),method, value;
-		var doc = document;
-		var ieComp = doc.all && doc.documentMode;
+			type = element.getAttribute( "type" ),
+			method,
+			value,
+			doc = document,
+			ieComp = doc.all && doc.documentMode;
 
 		for ( method in $.validator.methods ) {
 
@@ -963,14 +964,14 @@ $.extend( $.validator, {
 				// and non-HTML5 browsers might have required="" markup
 				if ( value === "" ) {
 					//IE10 in compatibility to IE8 returns "" also when the attribute doesn't exist
-					if (ieComp && doc.documentMode === 8 && element.attributes["required"] === null)
+					if (ieComp && doc.documentMode === 8 && element.attributes.required === null)
 					{
 						value = false;
 					} else {
 						value = true;
 					}
 				}
-				if (value === null && ieComp && doc.documentMode === 7 && element.attributes["required"] && element.attributes["required"].value === "-1") {
+				if (value === null && ieComp && doc.documentMode === 7 && element.attributes.required && element.attributes.required.value === "-1") {
 					//IE10 in compatibility to IE7 returns null in all cases but .attributes["required"].value returns "-1" if it exists and "null" otherwise
 					value = true;
 				}
